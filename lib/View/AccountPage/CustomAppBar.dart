@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:task_manager/View/UpdateProfile.dart';
+import 'package:task_manager/View/AccountPage/UpdateProfile.dart';
 
-import '../Styels/CustomColor.dart';
+import '../../Styels/CustomColor.dart';
 
 Widget CustomAppBar() {
   return Container(

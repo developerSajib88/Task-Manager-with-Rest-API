@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:task_manager/Controller/AccountAuthentication.dart';
 import 'package:task_manager/Styels/BackgroundStyles.dart';
 import 'package:task_manager/Styels/Style.dart';
-import 'package:task_manager/View/ResetPasswordPage.dart';
-import 'package:task_manager/View/SignUpPage.dart';
+import 'package:task_manager/View/AccountPage/VerifyEmailAddress.dart';
+import 'package:task_manager/View/AccountPage/SignUpPage.dart';
 
-import '../Styels/CustomColor.dart';
-import '../Styels/InputDecoration.dart';
+import '../../Styels/CustomColor.dart';
+import '../../Styels/InputDecoration.dart';
 
 class LogInPage extends StatefulWidget {
   const LogInPage({Key? key}) : super(key: key);
@@ -17,7 +18,15 @@ class LogInPage extends StatefulWidget {
 }
 
 class _LogInPageState extends State<LogInPage> {
-  @override
+
+ final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+ final TextEditingController _email = TextEditingController();
+ final TextEditingController _password = TextEditingController();
+
+ bool loading = false;
+
+
+ @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
@@ -29,6 +38,7 @@ class _LogInPageState extends State<LogInPage> {
               height: double.infinity,
               alignment: Alignment.center,
               child: Form(
+                key: _formKey,
                 child: Padding(
                   padding: const EdgeInsets.all(50.0),
                   child: SingleChildScrollView(
@@ -50,9 +60,16 @@ class _LogInPageState extends State<LogInPage> {
                         SizedBox(
                           height: 45.0,
                           child: TextFormField(
+                            controller: _email,
                             cursorWidth: 3,
                             cursorColor: customGreen,
                             decoration: customInputDecoration("Email"),
+                            validator: (value){
+                              if(value!.length < 6){
+                                return "Enter Valid Email";
+                              }
+                            },
+
                           ),
                         ),
 
@@ -65,9 +82,15 @@ class _LogInPageState extends State<LogInPage> {
                         SizedBox(
                           height: 45.0,
                           child: TextFormField(
+                            controller: _password,
                             cursorWidth: 3,
                             cursorColor: customGreen,
                             decoration: customInputDecoration("Password"),
+                            validator: (value){
+                              if(value!.length < 6){
+                                return "Minimum 6 digit password";
+                              }
+                            },
                           ),
                         ),
 
@@ -80,8 +103,19 @@ class _LogInPageState extends State<LogInPage> {
                             width: double.infinity,
                             height: 40.0,
                             child: ElevatedButton(
-                              onPressed: () {},
-                              child: const Icon(Icons.arrow_circle_right_outlined),
+                              onPressed: ()async{
+                                if(_formKey.currentState!.validate()){
+                                  loading = true;
+                                  setState(() {});
+                                 bool response = await LogInAccount(context, _email.text, _password.text);
+                                 if(response == true){
+                                   loading = false;
+                                   setState(() {});
+                                 }
+                                }
+                              },
+                              child: loading == false? Icon(Icons.arrow_circle_right_outlined)
+                                  : customCirculerPogressIndicatore(),
                               style: customButtonStyle,
                             )),
 
@@ -109,7 +143,7 @@ class _LogInPageState extends State<LogInPage> {
 
                             InkWell(
                                 onTap: () {
-                                  Get.to(const SignUpPage(),transition: Transition.cupertino,duration: const Duration(milliseconds: 500));
+                                  Get.off(const SignUpPage(),transition: Transition.cupertino,duration: const Duration(milliseconds: 500));
                                 },
                                 child: Text(
                                   "Sign Up",

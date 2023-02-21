@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:task_manager/Controller/AccountAuthentication.dart';
 import 'package:task_manager/Styels/BackgroundStyles.dart';
 import 'package:task_manager/Styels/CustomColor.dart';
 import 'package:task_manager/Styels/Style.dart';
-import 'package:task_manager/View/SetPasswordPage.dart';
-import 'package:task_manager/View/signInView.dart';
+
+import 'SetPasswordPage.dart';
+import 'signInView.dart';
 
 class PinVarificationPage extends StatefulWidget {
-  const PinVarificationPage({Key? key}) : super(key: key);
+   PinVarificationPage({Key? key,required this.getEmail}) : super(key: key);
+
+  String getEmail;
 
   @override
   State<PinVarificationPage> createState() => _PinVarificationPageState();
@@ -17,6 +21,7 @@ class PinVarificationPage extends StatefulWidget {
 class _PinVarificationPageState extends State<PinVarificationPage> {
 
   late String currentText;
+  bool Loading = false;
 
 
   TextEditingController textEditingController = TextEditingController();
@@ -98,6 +103,9 @@ class _PinVarificationPageState extends State<PinVarificationPage> {
                         //but you can show anything you want here, like your pop up saying wrong paste format or etc
                         return true;
                       },
+                      validator: (value){
+                        if(value!.length < 6)return "Enter your 6 digit PIN";
+                      },
                     ),
 
                     //PIN Code fields end here====================================================
@@ -112,10 +120,19 @@ class _PinVarificationPageState extends State<PinVarificationPage> {
                       width: double.infinity,
                       height: 40,
                       child: ElevatedButton(
-                          onPressed: (){
-                            Get.to(const SetPasswordPage(),transition: Transition.cupertino,duration: const Duration(milliseconds: 500));
+                          onPressed: ()async{
+                            if(textEditingController.text.length == 6){
+                              Loading = true;
+                              setState(() {});
+                             bool getResponse = await PinVerificationRequest(context, widget.getEmail, textEditingController.text);
+                             if(getResponse == true){
+                               Loading = false;
+                               setState(() {});
+                             }
+                            }
                           },
-                          child: const Text("Verify"),
+                          child: Loading == false? const Text("Verify")
+                          :customCirculerPogressIndicatore(),
                         style: customButtonStyle,
                       ),
                     ),

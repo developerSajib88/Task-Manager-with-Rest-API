@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:task_manager/Controller/AccountAuthentication.dart';
 import 'package:task_manager/Styels/BackgroundStyles.dart';
 import 'package:task_manager/Styels/Style.dart';
-import 'package:task_manager/View/PinVarificationPage.dart';
-import 'package:task_manager/View/SetPasswordPage.dart';
-import 'package:task_manager/View/signInView.dart';
+import 'package:task_manager/View/AccountPage/PinVarificationPage.dart';
 
-import '../Styels/CustomColor.dart';
-import '../Styels/InputDecoration.dart';
+import '../../Styels/CustomColor.dart';
+import '../../Styels/InputDecoration.dart';
+import 'signInView.dart';
 
 class ResetPasswordPage extends StatefulWidget {
   const ResetPasswordPage({Key? key}) : super(key: key);
@@ -17,6 +17,12 @@ class ResetPasswordPage extends StatefulWidget {
 }
 
 class _ResetPasswordPageState extends State<ResetPasswordPage> {
+
+  bool Loading = false;
+
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final TextEditingController _resetEmail = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,10 +51,17 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
                   SizedBox(
                     height: 45.0,
-                    child: TextFormField(
-                      cursorWidth: 3,
-                      cursorColor: customGreen,
-                      decoration: customInputDecoration("Email"),
+                    child: Form(
+                      key: formKey,
+                      child: TextFormField(
+                        controller: _resetEmail,
+                        cursorWidth: 3,
+                        cursorColor: customGreen,
+                        decoration: customInputDecoration("Email"),
+                        validator: (value){
+                          if(value!.isEmpty || value.length < 10)return "Enter your valid email";
+                        },
+                      ),
                     ),
                   ),
 
@@ -58,10 +71,22 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                       width: double.infinity,
                       height: 40.0,
                       child: ElevatedButton(
-                        onPressed: () {
-                         Get.to(const PinVarificationPage(),transition: Transition.cupertino,duration: const Duration(milliseconds: 500));
+                        onPressed: ()async{
+                         if(formKey.currentState!.validate()){
+                           Loading = true;
+                           setState(() {});
+                           bool getResponse = await VerifyRecoverEmail(context, _resetEmail.text);
+                           if(getResponse == true){
+                             Loading = false;
+                             setState(() {});
+                           }else{
+                             Loading = false;
+                             setState(() {});
+                           }
+                         }
                         },
-                        child: const Icon(Icons.arrow_circle_right_outlined),
+                        child: Loading == false? Icon(Icons.arrow_circle_right_outlined)
+                        :customCirculerPogressIndicatore(),
                         style: customButtonStyle,
                       )),
 

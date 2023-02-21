@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:task_manager/Styels/BackgroundStyles.dart';
-import '../Styels/CustomColor.dart';
+import '../../Styels/CustomColor.dart';
 
-import '../Styels/InputDecoration.dart';
-import '../Styels/Style.dart';
+import '../../Styels/InputDecoration.dart';
+import '../../Styels/Style.dart';
 import 'CustomAppBar.dart';
 
 class UpdateProfile extends StatefulWidget {

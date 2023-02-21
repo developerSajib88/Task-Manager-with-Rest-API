@@ -8,7 +8,7 @@ import 'package:task_manager/View/NavigationView/CompletedPage.dart';
 import 'package:task_manager/View/NavigationView/NewTaskPage.dart';
 import 'package:task_manager/View/NavigationView/ProgressPage.dart';
 
-import 'CustomAppBar.dart';
+import 'AccountPage/CustomAppBar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

@@ -31,3 +31,8 @@ TextStyle customDescriptionTextStyle(){
 ButtonStyle customButtonStyle = ElevatedButton.styleFrom(
   backgroundColor: customGreen,
 );
+
+
+Widget customCirculerPogressIndicatore(){
+  return const SizedBox(width: 15,height: 15,child: CircularProgressIndicator(color: Colors.white,strokeWidth: 3,));
+}

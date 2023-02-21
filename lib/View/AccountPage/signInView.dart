@@ -2,9 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:task_manager/View/LogInPage.dart';
+import 'package:task_manager/View/AccountPage/LogInPage.dart';
 
-import '../Styels/CustomColor.dart';
+import '../../Styels/CustomColor.dart';
+
 
 Widget signInView() {
   return Row(

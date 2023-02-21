@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_manager/Styels/BackgroundStyles.dart';
-import 'package:task_manager/View/LogInPage.dart';
+
+import 'AccountPage/LogInPage.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
