@@ -42,7 +42,7 @@ Widget ItemView(
             ),
 
             Text(
-              "Date: 12-12-2001",
+              date,
               style: GoogleFonts.poppins(
                   fontSize: 10, color: customBlack, fontWeight: FontWeight.bold),
             ),

@@ -36,3 +36,7 @@ ButtonStyle customButtonStyle = ElevatedButton.styleFrom(
 Widget customCirculerPogressIndicatore(){
   return const SizedBox(width: 15,height: 15,child: CircularProgressIndicator(color: Colors.white,strokeWidth: 3,));
 }
+
+Widget customloadingPogressIndicatore(){
+  return Center(child: SizedBox(width: 20,height: 20,child: CircularProgressIndicator(color: customGreen,strokeWidth: 3,)));
+}

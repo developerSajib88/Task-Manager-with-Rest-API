@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:task_manager/Styels/CustomColor.dart';
+import 'package:task_manager/Styels/Style.dart';
 
+import '../../Controller/API_Calling.dart';
 import '../ItemView.dart';
 
 class NewTaskPage extends StatefulWidget {
@@ -12,6 +14,23 @@ class NewTaskPage extends StatefulWidget {
 }
 
 class _NewTaskPageState extends State<NewTaskPage> {
+
+  List newTaskList = [];
+
+  Future getNewTask()async{
+    newTaskList = await getTaskList("New");
+    setState(() {});
+  }
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getNewTask();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -131,20 +150,23 @@ class _NewTaskPageState extends State<NewTaskPage> {
           const SizedBox(height: 10.0,),
 
           Expanded(
-              child: ListView.builder(
-                itemCount: 10,
-                padding: EdgeInsets.zero,
-                itemBuilder: (context,index){
-                  return ItemView(
-                      customBlue,
-                      "Lorem Ipsum is simply dummy",
-                      "It is a long established fact that a reader will be distracted by the readable content"
-                          "of a page when looking at its layout.",
-                      "Date: 12-12-2001",
-                      "New",
-                       index
-                  );
-                },
+              child: Visibility(
+                visible: newTaskList.length != 0,
+                replacement: customloadingPogressIndicatore(),
+                child: ListView.builder(
+                  itemCount: newTaskList.length,
+                  padding: EdgeInsets.zero,
+                  itemBuilder: (context,index){
+                    return ItemView(
+                        customBlue,
+                        newTaskList[index]["title"],
+                        newTaskList[index]["description"],
+                        newTaskList[index]["createdDate"],
+                        "New",
+                         index
+                    );
+                  },
+                ),
               )
           )
 

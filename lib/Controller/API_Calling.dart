@@ -9,8 +9,7 @@ import 'package:task_manager/View/AccountPage/PinVarificationPage.dart';
 import 'package:task_manager/View/AccountPage/SetPasswordPage.dart';
 import 'package:task_manager/View/HomePage.dart';
 
-
-
+  String userToken = "";
   String baseUrl = "https://task.teamrabbil.com/api/v1";
   var requestHeader  = {'Content-Type': 'application/json; charset=UTF-8',};
 
@@ -29,6 +28,7 @@ import 'package:task_manager/View/HomePage.dart';
     Map<String,dynamic> getMap = jsonDecode(response.body);
 
     if(response.statusCode == 200 && getMap["status"] == "success"){
+      userToken = getMap["token"];
       Get.off(const HomePage(),transition: Transition.cupertino,duration: const Duration(milliseconds: 500));
       successToast(context, "Sign In Successfull");
       return true;
@@ -117,7 +117,7 @@ import 'package:task_manager/View/HomePage.dart';
   
   //Reset Password mehtod
 Future<bool> setPassword(BuildContext context, String email,OTP,password)async{
-    Uri requestUri = Uri.parse("${baseUrl}//RecoverResetPass");
+    Uri requestUri = Uri.parse("${baseUrl}/RecoverResetPass");
     http.Response response = await http.post(
       requestUri,
       headers: requestHeader,
@@ -139,6 +139,49 @@ Future<bool> setPassword(BuildContext context, String email,OTP,password)async{
       failedToast(context, "${getMap["data"]}");
       return true;
     }
+
+}
+
+
+Future<bool>createTask(BuildContext context,String title,description)async{
+    print("====================================================================================$userToken");
+    Uri requestUri = Uri.parse("${baseUrl}/createTask");
+    var taskRequestHeader = {'Content-Type': 'application/json', "token": "${userToken}"};
+
+    http.Response response = await http.post(
+      requestUri,
+      headers: taskRequestHeader,
+      body: jsonEncode({
+        "title":title,
+        "description":description,
+        "status":"New"
+      })
+    );
+
+    Map<String,dynamic> getMap = jsonDecode(response.body);
+    if(response.statusCode == 200){
+      print(getMap);
+      successToast(context, "Your task create is done");
+      return true;
+    }else{
+      failedToast(context, "Your task is not created");
+      return false;
+    }
+
+}
+
+
+//Get New Task
+Future<List> getTaskList(String Status)async{
+  Uri requestUri = Uri.parse("${baseUrl}/listTaskByStatus/$Status");
+  var taskRequestHeader = {'Content-Type': 'application/json', "token": "${userToken}"};
+  http.Response response = await http.get(requestUri,headers: taskRequestHeader);
+  Map<String,dynamic> getMap = await jsonDecode(response.body);
+  if(response.statusCode == 200 && getMap["status"] == "success" ){
+    return getMap["data"];
+  }else{
+    return [];
+  }
 
 }
 

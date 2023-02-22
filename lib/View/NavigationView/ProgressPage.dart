@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:task_manager/Styels/CustomColor.dart';
+import 'package:task_manager/Styels/Style.dart';
 
+import '../../Controller/API_Calling.dart';
 import '../ItemView.dart';
 
 class ProgressPage extends StatefulWidget {
@@ -11,23 +13,33 @@ class ProgressPage extends StatefulWidget {
 }
 
 class _ProgressPageState extends State<ProgressPage> {
+
+  List progressTaskList = [];
+
+  Future getProgressTask()async{
+    progressTaskList = await getTaskList("Progress");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: ListView.builder(
-          itemCount: 10,
-          padding: const EdgeInsets.only(top: 10.0),
-          itemBuilder: (context,index){
-            return ItemView(
-                customPurple,
-                "Lorem Ipsum is simply dummy",
-                "It is a long established fact that a reader will be distracted by the readable content"
-                    "of a page when looking at its layout.",
-                "Date: 12-12-2001",
-                "Progress",
-                index
-            );
-          },
+        body: Visibility(
+          visible: progressTaskList.length != 0,
+          replacement: customloadingPogressIndicatore(),
+          child: ListView.builder(
+            itemCount: progressTaskList.length,
+            padding: const EdgeInsets.only(top: 10.0),
+            itemBuilder: (context,index){
+              return ItemView(
+                  customPurple,
+                  progressTaskList[index]["title"],
+                  progressTaskList[index]["description"],
+                  progressTaskList[index]["createdDate"],
+                  "Progress",
+                  index
+              );
+            },
+          ),
         )
     );
   }
