@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:task_manager/Controller/API_Calling.dart';
 import 'package:task_manager/View/AccountPage/UpdateProfile.dart';
 
 import '../../Styels/CustomColor.dart';
@@ -21,9 +22,8 @@ Widget CustomAppBar() {
             backgroundColor: Color(0xff0BB161),
             child: CircleAvatar(
               radius: 25.0,
-              backgroundImage: NetworkImage(
-                "https://www.befunky.com/images/wp/wp-2021-01-linkedin-profile-picture-focus-face.jpg?auto=avif,webp&format=jpg&width=944",
-              ),
+              backgroundColor: customWhite,
+              child: Icon(Icons.perm_identity_sharp,color: customGreen,size: 30,)
             ),
           ),
           Padding(
@@ -35,7 +35,7 @@ Widget CustomAppBar() {
                 SizedBox(
                   width: 200,
                   child: Text(
-                    "Hellary Klinton",
+                    userName!,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.start,
                     style: GoogleFonts.poppins(
@@ -49,7 +49,7 @@ Widget CustomAppBar() {
                 SizedBox(
                   width: 250,
                   child: Text(
-                    "klington@gmail.com",
+                    userEmail!,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.start,
                     style: GoogleFonts.poppins(
@@ -63,13 +63,13 @@ Widget CustomAppBar() {
             ),
           ),
 
-          Expanded(
+          /*Expanded(
               child: IconButton(
                 onPressed: (){
                   Get.to(const UpdateProfile(),transition: Transition.cupertino,duration: const Duration(milliseconds: 500));
                 },
                 icon: Icon(Icons.edit,size: 20,color: customWhite,),
-              ))
+              ))*/
 
         ],
       ),

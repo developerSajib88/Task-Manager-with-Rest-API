@@ -13,6 +13,9 @@ import 'package:task_manager/View/HomePage.dart';
   String baseUrl = "https://task.teamrabbil.com/api/v1";
   var requestHeader  = {'Content-Type': 'application/json; charset=UTF-8',};
 
+  String? userName;
+  String? userEmail;
+
 //This method for User Authentication
   Future<bool> LogInAccount(BuildContext context,String email,password)async{
     Uri requestUri = Uri.parse("${baseUrl}/login");
@@ -31,6 +34,8 @@ import 'package:task_manager/View/HomePage.dart';
       userToken = getMap["token"];
       Get.off(const HomePage(),transition: Transition.cupertino,duration: const Duration(milliseconds: 500));
       successToast(context, "Sign In Successfull");
+      userEmail = getMap["data"]["email"];
+      userName = "${getMap["data"]["firstName"]} ${getMap["data"]["lastName"]}";
       return true;
     }else{
       failedToast(context, "${getMap["status"]}!");

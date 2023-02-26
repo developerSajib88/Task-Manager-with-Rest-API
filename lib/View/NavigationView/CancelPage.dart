@@ -31,23 +31,28 @@ class _CancelPageState extends State<CancelPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Visibility(
-          visible: cancelTask.length != 0,
-          replacement: customloadingPogressIndicatore(),
-          child: ListView.builder(
-            itemCount: cancelTask.length,
-            padding: const EdgeInsets.only(top: 10.0),
-            itemBuilder: (context,index){
-              return ItemView(
-                  context,
-                  customRed,
-                  cancelTask[index]["title"],
-                  cancelTask[index]["description"],
-                  cancelTask[index]["createdDate"],
-                  "Canceled",
-                  cancelTask[index]["_id"]
-              );
-            },
+        body: RefreshIndicator(
+          onRefresh: ()async{
+            getCancelTask();
+          },
+          child: Visibility(
+            visible: cancelTask.length != 0,
+            replacement: customloadingPogressIndicatore(),
+            child: ListView.builder(
+              itemCount: cancelTask.length,
+              padding: const EdgeInsets.only(top: 10.0),
+              itemBuilder: (context,index){
+                return ItemView(
+                    context,
+                    customRed,
+                    cancelTask[index]["title"],
+                    cancelTask[index]["description"],
+                    cancelTask[index]["createdDate"],
+                    "Canceled",
+                    cancelTask[index]["_id"]
+                );
+              },
+            ),
           ),
         )
     );

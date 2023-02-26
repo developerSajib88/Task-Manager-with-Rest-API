@@ -32,23 +32,28 @@ class _CompletedPageState extends State<CompletedPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Visibility(
-        visible: completedTask.length != 0,
-        replacement: customloadingPogressIndicatore(),
-        child: ListView.builder(
-          itemCount: completedTask.length,
-          padding: const EdgeInsets.only(top: 10.0),
-          itemBuilder: (context,index){
-        return ItemView(
-            context,
-            customGreen,
-            completedTask[index]["title"],
-            completedTask[index]["description"],
-            completedTask[index]["createdDate"],
-            "Completed",
-            completedTask[index]["_id"]
-        );
+      body: RefreshIndicator(
+        onRefresh: ()async{
+          getCompletedTask();
+        },
+        child: Visibility(
+          visible: completedTask.length != 0,
+          replacement: customloadingPogressIndicatore(),
+          child: ListView.builder(
+            itemCount: completedTask.length,
+            padding: const EdgeInsets.only(top: 10.0),
+            itemBuilder: (context,index){
+          return ItemView(
+              context,
+              customGreen,
+              completedTask[index]["title"],
+              completedTask[index]["description"],
+              completedTask[index]["createdDate"],
+              "Completed",
+              completedTask[index]["_id"]
+          );
     },
+          ),
         ),
       )
     );
