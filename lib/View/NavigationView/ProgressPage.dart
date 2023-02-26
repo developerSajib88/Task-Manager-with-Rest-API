@@ -18,7 +18,16 @@ class _ProgressPageState extends State<ProgressPage> {
 
   Future getProgressTask()async{
     progressTaskList = await getTaskList("Progress");
+    setState(() {});
   }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getProgressTask();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -31,12 +40,13 @@ class _ProgressPageState extends State<ProgressPage> {
             padding: const EdgeInsets.only(top: 10.0),
             itemBuilder: (context,index){
               return ItemView(
+                  context,
                   customPurple,
                   progressTaskList[index]["title"],
                   progressTaskList[index]["description"],
                   progressTaskList[index]["createdDate"],
                   "Progress",
-                  index
+                  progressTaskList[index]["_id"]
               );
             },
           ),

@@ -186,5 +186,56 @@ Future<List> getTaskList(String Status)async{
 }
 
 
+//Update Task
+Future<bool> updateTask(BuildContext context,String id,taskStack)async{
+    print("====================Method is not called");
+    String uri = "${baseUrl}/updateTaskStatus/${id}/${taskStack}";
+    Uri requestUri = Uri.parse(uri);
+    var requestHeader = {'Content-Type': 'application/json', "token": "${userToken}"};
+    http.Response response = await http.get(requestUri,headers: requestHeader);
+    Map<String,dynamic> getMap = jsonDecode(response.body);
+    if(response.statusCode == 200 && getMap["status"] == "success"){
+      Get.back();
+      successToast(context, "Your task is updated");
+      return true;
+    }else{
+      failedToast(context, "Update failed!");
+      return true;
+    }
+}
+
+
+//Delete Task
+Future deleteTask(BuildContext context,String id)async{
+    String uri = "${baseUrl}/deleteTask/${id}";
+    var requestHeader = {'Content-Type': 'application/json', "token": "${userToken}"};
+    Uri requestUri = Uri.parse(uri);
+
+    http.Response response = await http.get(requestUri,headers: requestHeader);
+    Map<String,dynamic> getMap = jsonDecode(response.body);
+
+    if(response.statusCode == 200 && getMap["status"] == "success"){
+      successToast(context, "Your is deleted");
+    }
+
+}
+
+//Task Status count
+Future<List> taskCount()async{
+    String uri = "${baseUrl}/taskStatusCount";
+    Uri requestUri = Uri.parse(uri);
+    var requestHeader = {'Content-Type': 'application/json', "token": "${userToken}"};
+
+    http.Response response = await http.get(requestUri,headers: requestHeader);
+    Map<String,dynamic> getMap = jsonDecode(response.body);
+    if(response.statusCode == 200 && getMap["status"] == "success" ){
+      return getMap["data"];
+    }else{
+      return [];
+    }
+
+}
+
+
 
 

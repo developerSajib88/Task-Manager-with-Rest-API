@@ -16,8 +16,8 @@ class _CancelPageState extends State<CancelPage> {
 
   List cancelTask = [];
 
-  Future getCancelTask()async{
-    cancelTask =await getTaskList("Canceled");
+   Future getCancelTask()async{
+    cancelTask =await getTaskList("Cancel");
     setState(() {});
   }
 
@@ -39,12 +39,13 @@ class _CancelPageState extends State<CancelPage> {
             padding: const EdgeInsets.only(top: 10.0),
             itemBuilder: (context,index){
               return ItemView(
+                  context,
                   customRed,
                   cancelTask[index]["title"],
                   cancelTask[index]["description"],
                   cancelTask[index]["createdDate"],
                   "Canceled",
-                  index
+                  cancelTask[index]["_id"]
               );
             },
           ),

@@ -1,15 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:task_manager/Controller/API_Calling.dart';
 import 'package:task_manager/Styels/CustomColor.dart';
+import 'package:task_manager/Widgets/ModelBottomSheet.dart';
 
 Widget ItemView(
+    BuildContext context,
     Color getColor,
     String title,
     String desCription,
     String date,
     String currentState,
-    int getIndex
+    String getID
     ){
   return Padding(
     padding: const EdgeInsets.only(bottom: 10.0,left: 15.0,right: 15.0),
@@ -70,15 +73,22 @@ Widget ItemView(
                   ),
                 ),
 
+              ],
+            ),
+
+            Row(
+              children: [
 
                 Expanded(child: Container()),
 
                 SizedBox(
                   width: 15.0,
                   height: 15.0,
-                  child: IconButton(
-                      onPressed: (){},
-                      icon: Icon(Icons.text_snippet_outlined,color: customGreen,size: 15,)
+                  child: InkWell(
+                      onTap: (){
+                        bottomsheet(context,title,desCription,getID);
+                      },
+                      child: Icon(Icons.text_snippet_outlined,color: customGreen,size: 15,)
                   ),
                 ),
 
@@ -88,21 +98,15 @@ Widget ItemView(
                 SizedBox(
                   width: 15.0,
                   height: 15.0,
-                  child: IconButton(
-                      onPressed: (){},
-                      icon: Icon(Icons.delete_forever_outlined,color: Colors.red,size: 15,)
+                  child: InkWell(
+                      onTap: (){
+                        deleteTask(context, getID);
+                      },
+                      child: Icon(Icons.delete_forever_outlined,color: Colors.red,size: 15,)
                   ),
                 ),
-
-
-                const SizedBox(width: 5.0,),
-
-
-
-
               ],
             )
-
 
           ],
         ),

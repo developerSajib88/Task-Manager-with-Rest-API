@@ -16,9 +16,34 @@ class NewTaskPage extends StatefulWidget {
 class _NewTaskPageState extends State<NewTaskPage> {
 
   List newTaskList = [];
+  int newTask = 0;
+  int completedTask = 0;
+  int cancelTask = 0;
+  int progressTask = 0;
 
   Future getNewTask()async{
     newTaskList = await getTaskList("New");
+    setState(() {});
+  }
+
+  Future getTaskCont()async{
+    List getList = await taskCount();
+
+    for(int index = 0; index<getList.length; index++){
+      if(getList[index]["_id"] == "Completed"){
+        completedTask = getList[index]["sum"];
+      }
+      else if(getList[index]["_id"] == "Cancel"){
+        cancelTask = getList[index]["sum"];
+      }
+      else if(getList[index]["_id"] == "Progress"){
+        progressTask = getList[index]["sum"];
+      }
+      else if(getList[index]["_id"] == "New"){
+        newTask = getList[index]["sum"];
+      }
+
+    }
     setState(() {});
   }
 
@@ -28,6 +53,7 @@ class _NewTaskPageState extends State<NewTaskPage> {
     // TODO: implement initState
     super.initState();
     getNewTask();
+    getTaskCont();
   }
 
 
@@ -57,7 +83,7 @@ class _NewTaskPageState extends State<NewTaskPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("09",style: GoogleFonts.poppins(fontSize: 15,color: customBlack,fontWeight: FontWeight.bold),),
+                        Text(newTask.toString(),style: GoogleFonts.poppins(fontSize: 15,color: customBlack,fontWeight: FontWeight.bold),),
                         Text("New Task",style: GoogleFonts.poppins(fontSize: 10,color: customGrey,fontWeight: FontWeight.bold),),
                       ],
                     ),
@@ -82,7 +108,7 @@ class _NewTaskPageState extends State<NewTaskPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("09",style: GoogleFonts.poppins(fontSize: 15,color: customBlack,fontWeight: FontWeight.bold),),
+                        Text(completedTask.toString(),style: GoogleFonts.poppins(fontSize: 15,color: customBlack,fontWeight: FontWeight.bold),),
                         Text("Completed",style: GoogleFonts.poppins(fontSize: 10,color: customGrey,fontWeight: FontWeight.bold),),
                       ],
                     ),
@@ -107,7 +133,7 @@ class _NewTaskPageState extends State<NewTaskPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("09",style: GoogleFonts.poppins(fontSize: 15,color: customBlack,fontWeight: FontWeight.bold),),
+                        Text(cancelTask.toString(),style: GoogleFonts.poppins(fontSize: 15,color: customBlack,fontWeight: FontWeight.bold),),
                         Text("Cancel",style: GoogleFonts.poppins(fontSize: 10,color: customGrey,fontWeight: FontWeight.bold),),
                       ],
                     ),
@@ -132,7 +158,7 @@ class _NewTaskPageState extends State<NewTaskPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("09",style: GoogleFonts.poppins(fontSize: 15,color: customBlack,fontWeight: FontWeight.bold),),
+                        Text(progressTask.toString(),style: GoogleFonts.poppins(fontSize: 15,color: customBlack,fontWeight: FontWeight.bold),),
                         Text("Progress",style: GoogleFonts.poppins(fontSize: 10,color: customGrey,fontWeight: FontWeight.bold),),
                       ],
                     ),
@@ -158,12 +184,13 @@ class _NewTaskPageState extends State<NewTaskPage> {
                   padding: EdgeInsets.zero,
                   itemBuilder: (context,index){
                     return ItemView(
+                        context,
                         customBlue,
                         newTaskList[index]["title"],
                         newTaskList[index]["description"],
                         newTaskList[index]["createdDate"],
                         "New",
-                         index
+                        newTaskList[index]["_id"]
                     );
                   },
                 ),

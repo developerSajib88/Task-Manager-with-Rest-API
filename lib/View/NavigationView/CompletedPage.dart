@@ -40,12 +40,13 @@ class _CompletedPageState extends State<CompletedPage> {
           padding: const EdgeInsets.only(top: 10.0),
           itemBuilder: (context,index){
         return ItemView(
+            context,
             customGreen,
             completedTask[index]["title"],
             completedTask[index]["description"],
             completedTask[index]["createdDate"],
             "Completed",
-            index
+            completedTask[index]["_id"]
         );
     },
         ),
