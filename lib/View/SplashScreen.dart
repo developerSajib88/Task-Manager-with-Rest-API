@@ -15,14 +15,15 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
 
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
+
     Timer(const Duration(seconds: 3), () {
-      Get.offAll(const LogInPage(),transition: Transition.cupertino,duration: const Duration(milliseconds: 500));
+        Get.offAll(const LogInPage(), transition: Transition.cupertino,
+            duration: const Duration(milliseconds: 500));
     }
     );
   }

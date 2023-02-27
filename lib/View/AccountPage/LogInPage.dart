@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:task_manager/Controller/API_Calling.dart';
 import 'package:task_manager/Styels/BackgroundStyles.dart';
 import 'package:task_manager/Styels/Style.dart';
 import 'package:task_manager/View/AccountPage/VerifyEmailAddress.dart';
 import 'package:task_manager/View/AccountPage/SignUpPage.dart';
+import 'package:task_manager/View/HomePage.dart';
 
 import '../../Styels/CustomColor.dart';
 import '../../Styels/InputDecoration.dart';
@@ -26,8 +28,18 @@ class _LogInPageState extends State<LogInPage> {
  bool loading = false;
 
 
+
+ @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  }
+
+
  @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: Stack(
         children: [
