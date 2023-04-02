@@ -155,7 +155,7 @@ class _LogInPageState extends State<LogInPage> {
 
                             InkWell(
                                 onTap: () {
-                                  Get.off(const SignUpPage(),transition: Transition.cupertino,duration: const Duration(milliseconds: 500));
+                                  Get.to(const SignUpPage(),transition: Transition.cupertino,duration: const Duration(milliseconds: 500));
                                 },
                                 child: Text(
                                   "Sign Up",

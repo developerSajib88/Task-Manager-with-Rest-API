@@ -8,8 +8,7 @@ InputDecoration customInputDecoration(String labelText) {
       filled: true,
       fillColor: customWhite,
       hintText: labelText,
-      contentPadding: const EdgeInsets.all(10.0),
-
+      contentPadding: const EdgeInsets.only(bottom: 10.0,left: 10,right: 10,top: 5),
       focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(5.0),
           borderSide: BorderSide(color: customGreen,width: 2)),
